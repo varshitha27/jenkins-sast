@@ -1,4 +1,4 @@
-# AWS Infrastructure Creation using Terraform by A Security Guru
+# AWS Infrastructure Creation using Terraform
 
 Helpful Terraform Links:
 - [Terraform Language Documentation](https://www.terraform.io/docs/language/index.html)
@@ -12,12 +12,12 @@ terraform init
 
 ## Step 1: Plan Resources
 ```
-terraform plan -var-file="vars/dev-west-2.tfvars"
+terraform plan -var-file="vars/dev-east-2.tfvars"
 ```
 
 ## Step 2: Apply Resources
 ```
-terraform apply -var-file="vars/dev-west-2.tfvars"
+terraform apply -var-file="vars/dev-east-2.tfvars"
 ```
 
 ## Step 3: Commands to get the Jenkins admin password via command line
@@ -58,4 +58,4 @@ eksctl delete cluster --region=us-west-2 --name=kubernetes-cluster #delete eks c
 
 ## Step 4: Cleanup Terraform Resources
 ```
-terraform destroy -var-file="vars/dev-west-2.tfvars"
+terraform destroy -var-file="vars/dev-east-2.tfvars"
