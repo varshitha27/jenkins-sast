@@ -73,8 +73,8 @@ data "aws_ami" "amazon_linux" {
   owners = ["amazon"] # Canonical
 }
 
-resource "aws_iam_role" "test_role" {
-  name = "test_role"
+resource "aws_iam_role" "devsecops_role" {
+  name = "devsecops_role"
 
   assume_role_policy = <<EOF
 {
@@ -93,14 +93,14 @@ resource "aws_iam_role" "test_role" {
 EOF
 }
 
-resource "aws_iam_instance_profile" "test_profile" {
-  name = "test_profile"
-  role = "${aws_iam_role.test_role.name}"
+resource "aws_iam_instance_profile" "ec2devsecops_profile" {
+  name = "ec2devsecops_profile"
+  role = "${aws_iam_role.devsecops_role.name}"
 }
 
-resource "aws_iam_role_policy" "test_policy" {
-  name = "test_policy"
-  role = "${aws_iam_role.test_role.id}"
+resource "aws_iam_role_policy" "devsecops_policy" {
+  name = "devsecops_policy"
+  role = "${aws_iam_role.devsecops_role.id}"
 
   policy = <<EOF
 {
@@ -120,11 +120,10 @@ resource "aws_instance" "web" {
   ami             = data.aws_ami.amazon_linux.id
   instance_type   = "t2.xlarge" 
   key_name        = var.key_name
-  iam_instance_profile = "${aws_iam_instance_profile.test_profile.name}"
+  iam_instance_profile = "${aws_iam_instance_profile.ec2devsecops_profile.name}"
   security_groups = [aws_security_group.jenkins_sg.name]
   user_data       = "${file("install_jenkins.sh")}"
   tags = {
     Name = "Jenkins"
   }
 }
-
